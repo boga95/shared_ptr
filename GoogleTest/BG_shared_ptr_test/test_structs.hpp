@@ -1,0 +1,7 @@
+#ifndef TEST_STRUCTS_HPP
+#define TEST_STRUCTS_HPP
+
+
+
+#endif // ! TEST_STRUCTS_HPP
+
