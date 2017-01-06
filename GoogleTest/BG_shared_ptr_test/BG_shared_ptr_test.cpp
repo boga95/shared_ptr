@@ -180,7 +180,9 @@ TEST(test_graph, two_children)
 		p2.reset();
 		p3.reset();
 	}
-	EXPECT_TRUE(deleted1 && deleted2 && deleted3) << "All objects must be deleted!";
+	EXPECT_TRUE(deleted1) << "All objects must be deleted!";
+	EXPECT_TRUE(deleted2) << "All objects must be deleted!";
+	EXPECT_TRUE(deleted3) << "All objects must be deleted!";
 }
 
 TEST(test_graph, shared_children)
@@ -228,6 +230,7 @@ TEST(test_graph, copy_graph)
 		Graph<copy_mock> h(g);
 	}
 	EXPECT_GT(ccount, dcount);
+	std::cout << ccount << " " << dcount << std::endl;
 }
 
 int main(int argc, char** argv)
