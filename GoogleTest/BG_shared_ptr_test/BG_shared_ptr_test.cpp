@@ -230,7 +230,6 @@ TEST(test_graph, copy_graph)
 		Graph<copy_mock> h(g);
 	}
 	EXPECT_GT(ccount, dcount);
-	std::cout << ccount << " " << dcount << std::endl;
 }
 
 int main(int argc, char** argv)
