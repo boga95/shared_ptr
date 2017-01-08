@@ -43,7 +43,7 @@ public:
 		_destroyed(m_._destroyed),
 		_created(m_._created)
 	{
-		if (_created)
+		if (_created!=nullptr)
 		{
 			++*_created;
 		}
@@ -225,7 +225,8 @@ TEST(test_graph, copy_graph)
 {
 	int dcount = 0;
 	int ccount = 0;
-	Graph<copy_mock> g(new copy_mock(dcount));
+
+	Graph<copy_mock> g(new copy_mock(dcount, ccount));
 	{
 		Graph<copy_mock> h(g);
 	}
