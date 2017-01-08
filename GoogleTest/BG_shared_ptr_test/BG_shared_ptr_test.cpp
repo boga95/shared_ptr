@@ -43,7 +43,7 @@ public:
 		_destroyed(m_._destroyed),
 		_created(m_._created)
 	{
-		if (_created!=nullptr)
+		if (_created)
 		{
 			++*_created;
 		}
