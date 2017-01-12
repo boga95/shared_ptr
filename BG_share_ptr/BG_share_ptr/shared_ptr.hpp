@@ -46,11 +46,16 @@ shared_ptr<T>::~shared_ptr()
 	{
 		if (*_ref_counter == 1) 
 		{
-			delete _object, _ref_counter;
+			delete _object;
+			delete _ref_counter;
 		}
 		else --(*_ref_counter);
 	}
-	else delete _object, _ref_counter;
+	else
+	{
+		delete _object;
+		delete _ref_counter;
+	}
 }
 
 template <class T>
@@ -70,7 +75,8 @@ shared_ptr<T>& shared_ptr<T>::operator= (const shared_ptr<T>& ptr_)
 		{
 			if (is_unique())
 			{
-				delete _object, _ref_counter;
+				delete _object;
+				delete _ref_counter;
 				_object = ptr_._object;
 				_ref_counter = ptr_._ref_counter;
 				++(*_ref_counter);
@@ -100,7 +106,8 @@ shared_ptr<T>& shared_ptr<T>::shared_ptr::reset()
 {
 	if (*_ref_counter == 1)
 	{
-		delete _object, _ref_counter;
+		delete _object;
+		delete _ref_counter;
 		_object = nullptr;
 		_ref_counter = nullptr;
 		return *this;

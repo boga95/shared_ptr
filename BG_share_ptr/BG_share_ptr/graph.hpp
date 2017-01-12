@@ -19,7 +19,7 @@ public:
 	void set_ptr1(const shared_ptr<Graph<T>>& ptr1_) { _ptr1 = ptr1_; }
 	void set_ptr2(const shared_ptr<Graph<T>>& ptr2_) { _ptr2 = ptr2_; }
 
-	const shared_ptr<T> get_object() const { return _object.get(); } 
+	const shared_ptr<T>& get_object() const { return _object; } 
 	const shared_ptr<Graph<T>>& get_ptr1() const { return _ptr1; }
 	const shared_ptr<Graph<T>>& get_ptr2() const { return _ptr2; }
 	
