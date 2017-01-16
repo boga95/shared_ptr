@@ -26,8 +26,8 @@ public:
 	T& operator[] (int index_) { return _object[index_]; }
 	const T& operator[] (int index_) const { return _object[index_]; }
 
-	T& operator-> () { return *_object; }
-	const T& operator-> () const { return *_object; }
+	T* operator-> () { return *_object; }
+	const T* operator-> () const { return *_object; }
 
 	T* get() { return _object; }
 	T* get() const { return _object; }
@@ -42,20 +42,7 @@ private:
 template <class T>
 shared_ptr<T>::~shared_ptr()
 {
-	if (_ref_counter != nullptr)
-	{
-		if (*_ref_counter == 1) 
-		{
-			delete _object;
-			delete _ref_counter;
-		}
-		else --(*_ref_counter);
-	}
-	else
-	{
-		delete _object;
-		delete _ref_counter;
-	}
+	reset();
 }
 
 template <class T>
@@ -73,23 +60,11 @@ shared_ptr<T>& shared_ptr<T>::operator= (const shared_ptr<T>& ptr_)
 		}
 		else
 		{
-			if (is_unique())
-			{
-				delete _object;
-				delete _ref_counter;
-				_object = ptr_._object;
-				_ref_counter = ptr_._ref_counter;
-				++(*_ref_counter);
-				return *this;
-			}
-			else
-			{
-				--(*_ref_counter);
-				_object = ptr_._object;
-				_ref_counter = ptr_._ref_counter;
-				++(*_ref_counter);
-				return *this;
-			}
+			reset();
+			_object = ptr_._object;
+			_ref_counter = ptr_._ref_counter;
+			++(*_ref_counter);
+			return *this;
 		}
 	}
 }
@@ -104,20 +79,24 @@ shared_ptr<T>& shared_ptr<T>::operator= (const T& ptr_)
 template <class T>
 shared_ptr<T>& shared_ptr<T>::shared_ptr::reset()
 {
-	if (*_ref_counter == 1)
+	if (_ref_counter != nullptr)
 	{
-		delete _object;
-		delete _ref_counter;
-		_object = nullptr;
-		_ref_counter = nullptr;
-		return *this;
+		if (is_unique())
+		{
+			delete _object;
+			delete _ref_counter;
+			_object = nullptr;
+			_ref_counter = nullptr;
+			return *this;
+		}
+		else
+		{
+			--(*_ref_counter);
+			_object = nullptr;
+			_ref_counter = nullptr;
+			return *this;
+		}
 	}
-	else
-	{
-		--(*_ref_counter);
-		_object = nullptr;
-		_ref_counter = nullptr;
-		return *this;
-	}
+	else delete _object;
 }
 #endif // SHARED_PTR_HPP_INCLUDED
