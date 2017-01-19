@@ -32,7 +32,7 @@ public:
 	T* get() { return _object; }
 	T* get() const { return _object; }
 	bool is_unique() const { return (*_ref_counter) == 1; }
-	shared_ptr<T>& reset();
+	void reset();
 
 private:
 	T *_object;
@@ -77,7 +77,7 @@ shared_ptr<T>& shared_ptr<T>::operator= (const T& ptr_)
 }
 
 template <class T>
-shared_ptr<T>& shared_ptr<T>::shared_ptr::reset()
+void shared_ptr<T>::shared_ptr::reset()
 {
 	if (_ref_counter != nullptr)
 	{
@@ -87,14 +87,12 @@ shared_ptr<T>& shared_ptr<T>::shared_ptr::reset()
 			delete _ref_counter;
 			_object = nullptr;
 			_ref_counter = nullptr;
-			return *this;
 		}
 		else
 		{
 			--(*_ref_counter);
 			_object = nullptr;
 			_ref_counter = nullptr;
-			return *this;
 		}
 	}
 	else delete _object;
